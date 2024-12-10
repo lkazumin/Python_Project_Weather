@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Погодные данные</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f0f4f8;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+        h1 {
+            color: #007bff;
+        }
+        h2 {
+            color: red;
+        }
+        .weather-data {
+            margin-top: 20px;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            display: inline-block; /* Центрирование блока */
+            text-align: left; /* Выравнивание текста внутри блока */
+        }
+        .weather-data div {
+            margin-bottom: 10px;
+        }
+        strong {
+            color: #007bff; /* Цвет для выделения заголовков данных */
+        }
+    </style>
+</head>
+<body>
+
+{% for weather in weather_list %}
+    <h1>Погодные данные в
+        {% if weather.name %}
+            {{ weather.name }}
+        {% else %}
+            {{ weather.cords }}
+        {% endif %}
+    </h1>
+
+    <h2>
+        {% if not weather.bad_condition %}
+            Погода подходящая
+        {% else %}
+            Погодные условия неблагоприятные:
+            {% for cond in weather.bad_condition %}
+                <br>{{ cond }}
+            {% endfor %}
+        {% endif %}
+    </h2>
+
+    <div class="weather-data">
+        <div><strong>Дата:</strong> {{ weather.date }}</div>
+        <div><strong>Температура:</strong> {{ weather.temperature }}°C</div>
+        <div><strong>Относительная влажность:</strong> {{ weather.relative_humidity }}%</div>
+        <div><strong>Вероятность осадков:</strong> {{ weather.precipitation_probability }}%</div>
+        <div><strong>Атмосферное давление:</strong> {{ weather.surface_pressure }} гПа</div>
+        <div><strong>Видимость:</strong> {{ weather.visibility }} метров</div>
+        <div><strong>Скорость ветра:</strong> {{ weather.wind_speed }} км/ч</div>
+    </div>
+
+{% endfor %}
+
+</body>
+</html>

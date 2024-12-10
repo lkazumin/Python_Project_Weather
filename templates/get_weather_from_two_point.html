@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Погода в двух точках</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f4f8;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+        h1 {
+            color: #007bff;
+        }
+        form {
+            margin: 20px 0;
+        }
+        .block {
+            margin-bottom: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: white; /* Добавлено для улучшения визуального восприятия */
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        hr {
+            margin: 40px 0;
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Погода в двух точках</h1>
+
+<form action="weather_on_route" method="post">
+    {% if error %}
+    <h2 style="color:red;">Ошибка: {{ error }}</h2>
+    {% endif %}
+
+    <div class="block">
+        <label for="locationType1">Начальная точка:</label><br>
+        <input type="radio" name="locationType1" value="coordinates" id="coordinates1" onclick="toggleFields(1)" required>
+        <label for="coordinates1">Координаты</label><br>
+        <input type="radio" name="locationType1" value="city" id="city1" onclick="toggleFields(1)" required>
+        <label for="city1">Название города</label>
+    </div>
+
+    <div class="block hidden" id="coordinatesBlock1">
+        <label for="latitude1">Широта:</label>
+        <input type="number" id="latitude1" name="latitude1" min="-90" max="90" step="any" value="0" required><br>
+        <label for="longitude1">Долгота:</label>
+        <input type="number" id="longitude1" name="longitude1" min="-90" max="90" step="any" value="0" required>
+    </div>
+
+    <div class="block hidden" id="cityBlock1">
+        <label for="cityName1">Название города:</label>
+        <input type="text" id="cityName1" name="cityName1" placeholder="Лучше на английском">
+    </div>
+
+    <hr>
+
+    <div class="block">
+        <label for="locationType2">Конечная точка:</label><br>
+        <input type="radio" name="locationType2" value="coordinates" id="coordinates2" onclick="toggleFields(2)" required>
+        <label for="coordinates2">Координаты</label><br>
+        <input type="radio" name="locationType2" value="city" id="city2" onclick="toggleFields(2)" required>
+        <label for="city2">Название города</label>
+    </div>
+
+    <div class="block hidden" id="coordinatesBlock2">
+        <label for="latitude2">Широта:</label>
+        <input type="number" id="latitude2" name="latitude2" min="-90" max="-90" step="any" value="-90"><br>
+        <label for "longitude2">Долгота:</label>
+        <input type "number"id= "longitude2"name= "longitude2"value= "0"
+required >
+</div>
+
+<div class= "block hidden"id= "cityBlock2">
+<label for= "cityName2">Название города:</label >
+<input type= "text"id= "cityName2"name= "cityName2"
+placeholder= "Лучше на английском">
+</div>
+
+<button type= "submit">Узнать прогноз</button >
+</form >
+
+<script >
+function toggleFields(point) {
+const coordinatesBlock = document.getElementById(`coordinatesBlock${point}`);
+const cityBlock = document.getElementById(`cityBlock${point}`);
+
+if (document.getElementById(`coordinates${point}`).checked) {
+coordinatesBlock.classList.remove('hidden');
+cityBlock.classList.add('hidden');
+} else if (document.getElementById(`city${point}`).checked) {
+cityBlock.classList.remove('hidden');
+coordinatesBlock.classList.add('hidden');
+}
+}
+</script >
+</body >
+</html >
